@@ -90,19 +90,19 @@ void printAnswer(ostream& os, const vector<T>& answer, const bool presentTense =
 }
 
 
-int main() { //TODO: allow for command-line arguments
+int main() { //TODO: allow command-line arguments
 	vector<string> colors = { "black", "blue", "green", "red", "white", "yellow", "blank" };
 	unsigned int numPinColors = 6, numPinsPerGuess = 4, numGuesses = 10;
 	const vector<string> cheatCodes = { "answer", "hint", "quit" }; //TODO: pair to functions?
 
 	getUnsignedInt("How many pin colors do you want to play with (default is 6)? ", numPinColors, 1, colors.size());
-	colors.resize(numPinColors); //throw out the extra colors
+	colors.resize(numPinColors);
 	cout << "The color option" << (colors.size() == 1 ? " is " : "s are ");
 	grammaticallyPrintVectorElements(cout, colors, "and");
 	cout << ". Caps are irrelevant in your guesses.\n";
 	getUnsignedInt("How many pins per guess do you want to play with (default is 4)? ", numPinsPerGuess, 1, UINT_MAX);
 	getUnsignedInt("How many guesses do you want to have (default is 10)? ", numGuesses);
-	//TODO: allow for specifying whether the player is the sequence producer (with an AI guesser) or guesser
+	//TODO: allow specifying whether the player is the sequence producer (with an AI guesser) or guesser
 
 	//rather inefficiently generate the random answer by multiplying the colors vector by the number of pins in the answer/guess, then randomly reordering and extracting the first few
 	vector<string> answer;
@@ -215,7 +215,7 @@ int main() { //TODO: allow for command-line arguments
 					}
 					else {
 						cout << "Your guess " << guessNumber + 1 << '/' << numGuesses << ": ";
-						//response pins come in alphabetical order (revealing nothing)
+						//response pins come in alphabetical order to reveal nothing
 						ostream_iterator<char> responseOutputIterator(cout);
 						copy(response.begin(), response.end(), responseOutputIterator);
 					}
