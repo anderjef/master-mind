@@ -34,9 +34,9 @@ using std::vector;
 
 
 void getUnsignedInt(const string& message, unsigned int& result, const unsigned int minValue = 0, const unsigned int maxValue = UINT_MAX) {
-	bool isAnInputError = false;
+	bool inputError;
 	do {
-		isAnInputError = false;
+		inputError = false;
 		cout << message;
 		string line;
 		getline(cin, line);
@@ -45,11 +45,11 @@ void getUnsignedInt(const string& message, unsigned int& result, const unsigned 
 				result = stoul(line);
 			}
 			catch (const invalid_argument& ia) {
-				isAnInputError = true;
+				inputError = true;
 				cerr << "Invalid argument: " << ia.what() << '\n';
 			}
 			catch (const out_of_range& oor) {
-				isAnInputError = true;
+				inputError = true;
 				cerr << "Out of range: " << oor.what() << '\n';
 			}
 			if (result < minValue) {
@@ -59,7 +59,7 @@ void getUnsignedInt(const string& message, unsigned int& result, const unsigned 
 				cerr << "Sorry, the maximum acceptable value for this input is " << maxValue << ".\n";
 			}
 		}
-	} while (isAnInputError || result > maxValue || result < minValue);
+	} while (inputError || result > maxValue || result < minValue);
 }
 
 
@@ -82,8 +82,8 @@ void grammaticallyPrintVectorElements(ostream& os, const vector<T>& v, const str
 
 
 template<class T>
-void printAnswer(ostream& os, const vector<T>& answer, const bool isPresentTense = true) {
-	os << "The correct answer " << (isPresentTense ? "is" : "was") << ' ';
+void printAnswer(ostream& os, const vector<T>& answer, const bool presentTense = true) {
+	os << "The correct answer " << (presentTense ? "is" : "was") << ' ';
 	ostream_iterator<T> answerOutputIterator(os, " ");
 	copy(answer.begin(), answer.end(), answerOutputIterator);
 	os << endl;
@@ -158,18 +158,18 @@ int main() { //TODO: allow for command-line arguments
 			vector<string> tempAnswerForComparing = answer;
 
 			//determine whether there is any invalid color option
-			bool isAColorError = false;
+			bool colorError = false;
 			for (unsigned int i = 0; i < tempAnswerForComparing.size(); i++) {
 				if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) { //if isn't a valid color
 					cerr << "Error: " << guess[i] << " is not a valid color (at least in this game). The valid color option" << (colors.size() == 1 ? " is " : "s are ");
 					grammaticallyPrintVectorElements(cerr, colors, "and");
 					cerr << ".\n";
-					isAColorError = true;
+					colorError = true;
 					continue;
 				}
 			}
 
-			if (!isAColorError) {
+			if (!colorError) {
 				vector<char> response;
 
 				//determine the need for any black ('b') response pins
@@ -178,7 +178,7 @@ int main() { //TODO: allow for command-line arguments
 						cerr << "Error: " << guess[i] << " is not a valid color (at least in this game). The valid color option" << (colors.size() == 1 ? " is " : "s are ");
 						grammaticallyPrintVectorElements(cerr, colors, "and");
 						cerr << ".\n";
-						isAColorError = true;
+						colorError = true;
 						continue;
 					}
 
