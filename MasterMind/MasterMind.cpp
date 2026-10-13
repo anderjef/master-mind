@@ -1,6 +1,3 @@
-//Jeffrey Andersen
-
-
 #include <algorithm> //copy() and find()
 #include <cctype>
 #include <climits>
@@ -39,7 +36,7 @@ using std::vector;
 void getUnsignedInt(const string& message, unsigned int& result, const unsigned int minValue = 0, const unsigned int maxValue = UINT_MAX) {
 	bool isAnInputError = false;
 	do {
-		isAnInputError = false; //to be corrected as necessary
+		isAnInputError = false;
 		cout << message;
 		string line;
 		getline(cin, line);
@@ -93,10 +90,10 @@ void printAnswer(ostream& os, const vector<T>& answer, const bool isPresentTense
 }
 
 
-int main() { //future consideration: allow for command-line arguments
+int main() { //TODO: allow for command-line arguments
 	vector<string> colors = { "black", "blue", "green", "red", "white", "yellow", "blank" };
 	unsigned int numPinColors = 6, numPinsPerGuess = 4, numGuesses = 10;
-	const vector<string> cheatCodes = { "answer", "hint", "quit" }; //future consideration: pair to functions?
+	const vector<string> cheatCodes = { "answer", "hint", "quit" }; //TODO: pair to functions?
 
 	getUnsignedInt("How many pin colors do you want to play with (default is 6)? ", numPinColors, 1, colors.size());
 	colors.resize(numPinColors); //throw out the extra colors
@@ -105,7 +102,7 @@ int main() { //future consideration: allow for command-line arguments
 	cout << ". Caps are irrelevant in your guesses.\n";
 	getUnsignedInt("How many pins per guess do you want to play with (default is 4)? ", numPinsPerGuess, 1, UINT_MAX);
 	getUnsignedInt("How many guesses do you want to have (default is 10)? ", numGuesses);
-	//future consideration: allow for specifying whether the player is the sequence producer (with an AI guesser) or guesser
+	//TODO: allow for specifying whether the player is the sequence producer (with an AI guesser) or guesser
 
 	//rather inefficiently generate the random answer by multiplying the colors vector by the number of pins in the answer/guess, then randomly reordering and extracting the first few
 	vector<string> answer;
