@@ -127,7 +127,9 @@ int main() { //TODO: allow for command-line arguments
 		if (guess.size() == 2 && guess[0] == cheatCodes[1]) { //cheatCodes[1] == "hint"
 			try {
 				const unsigned int hintIndex = stoul(guess[1]);
-				if (hintIndex == 0 || hintIndex >= answer.size()) { throw out_of_range("hint index argument out of range"); }
+				if (hintIndex == 0 || hintIndex >= answer.size()) {
+					throw out_of_range("hint index argument out of range");
+				}
 				cout << "Your hint: pin " << hintIndex << " is " << answer[hintIndex - 1] << endl;
 				continue;
 			}
