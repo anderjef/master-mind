@@ -2,10 +2,15 @@
 
 
 #include <algorithm> //copy() and find()
+#include <cctype>
+#include <climits>
+#include <ios>
 #include <iostream>
 #include <iterator> //ostream_iterator
+#include <limits>
 #include <random>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 using std::cerr;
