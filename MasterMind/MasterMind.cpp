@@ -130,7 +130,7 @@ int main() { //TODO: allow for command-line arguments
 				if (hintIndex == 0 || hintIndex >= answer.size()) {
 					throw out_of_range("hint index argument out of range");
 				}
-				cout << "Your hint: pin " << hintIndex << " is " << answer[hintIndex - 1] << endl;
+				cout << "Your hint: pin " << hintIndex << " is " << answer[static_cast<size_t>(hintIndex) - 1] << endl;
 				continue;
 			}
 			catch (const invalid_argument&) {}
