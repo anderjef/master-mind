@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="MasterMind/MasterMind.vcxproj" Id="a0c8872a-ec4a-474a-aaf6-54a5546d64a2" />
+</Solution>
