@@ -1,10 +1,8 @@
 #include <algorithm>
 #include <cctype>
 #include <climits>
-#include <ios>
 #include <iostream>
 #include <iterator>
-#include <limits>
 #include <random>
 #include <sstream>
 #include <stdexcept>
@@ -21,13 +19,11 @@ using std::invalid_argument;
 using std::istream_iterator;
 using std::istringstream;
 using std::mt19937;
-using std::numeric_limits;
 using std::ostream;
 using std::ostream_iterator;
 using std::out_of_range;
 using std::random_device;
 using std::shuffle;
-using std::streamsize;
 using std::string;
 using std::uniform_int_distribution;
 using std::vector;
