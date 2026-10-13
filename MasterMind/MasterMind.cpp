@@ -33,7 +33,7 @@ using std::uniform_int_distribution;
 using std::vector;
 
 
-void getUnsignedInt(const string& message, unsigned int& result, const unsigned int minValue = 0, const unsigned int maxValue = UINT_MAX) {
+static void getUnsignedInt(const string& message, unsigned int& result, const unsigned int minValue = 0, const unsigned int maxValue = UINT_MAX) {
 	bool inputError;
 	do {
 		inputError = false;
