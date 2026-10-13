@@ -1,9 +1,9 @@
-#include <algorithm> //copy() and find()
+#include <algorithm>
 #include <cctype>
 #include <climits>
 #include <ios>
 #include <iostream>
-#include <iterator> //ostream_iterator
+#include <iterator>
 #include <limits>
 #include <random>
 #include <sstream>
