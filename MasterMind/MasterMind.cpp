@@ -60,7 +60,7 @@ static void getUnsignedInt(const string& message, size_t& result, const size_t m
 
 
 template<class T>
-void grammaticallyPrintVectorElements(ostream& os, const vector<T>& v, const string& coordinatingLogicalOperator) { //the coordinatingLogicalOperator is not confirmed to be such, but simply takes that position in the printed list
+void grammaticallyPrintVectorElements(ostream& os, const vector<T>& v, const string& coordinatingLogicalOperator) { //TODO: enum of (allowed) coordinating logical operators
 	switch (v.size()) {
 	default:
 		copy(v.begin(), v.end() - 2, ostream_iterator<T>(os, ", "));
@@ -86,7 +86,7 @@ void printAnswer(ostream& os, const vector<T>& answer, const bool presentTense =
 }
 
 
-int main() { //TODO: allow command-line arguments
+int main() {
 	vector<string> colors = { "black", "blue", "green", "red", "white", "yellow", "blank" };
 	size_t numPinColors = 6, numPinsPerGuess = 4, numGuesses = 10;
 	const vector<string> cheatCodes = { "answer", "hint", "quit" }; //TODO: pair to functions?
@@ -113,7 +113,7 @@ int main() { //TODO: allow command-line arguments
 	for (size_t guessNumber = 0; guessNumber < numGuesses; ) {
 		string line;
 		getline(cin, line);
-		for (size_t i = 0; i < line.size(); i++) { //make caps irrelevant
+		for (size_t i = 0; i < line.size(); i++) {
 			line[i] = tolower(line[i]);
 		}
 		istringstream iss(line);
@@ -154,10 +154,10 @@ int main() { //TODO: allow command-line arguments
 		else {
 			vector<string> tempAnswerForComparing = answer;
 
-			//determine whether there is any invalid color option
+			//determine whether there is any invalid color
 			bool colorError = false;
 			for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
-				if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) { //if isn't a valid color
+				if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) {
 					cerr << "Error: " << guess[i] << " is not a valid color (at least in this game). The valid color option" << (colors.size() == 1 ? " is " : "s are ");
 					grammaticallyPrintVectorElements(cerr, colors, "and");
 					cerr << ".\n";
@@ -169,9 +169,9 @@ int main() { //TODO: allow command-line arguments
 			if (!colorError) {
 				vector<char> response;
 
-				//determine the need for any black ('b') response pins
+				//determine the need for any black response pins
 				for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
-					if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) { //if isn't a valid color
+					if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) {
 						cerr << "Error: " << guess[i] << " is not a valid color (at least in this game). The valid color option" << (colors.size() == 1 ? " is " : "s are ");
 						grammaticallyPrintVectorElements(cerr, colors, "and");
 						cerr << ".\n";
@@ -187,7 +187,7 @@ int main() { //TODO: allow command-line arguments
 					}
 				}
 
-				//determine the need for any white ('w') response pins
+				//determine the need for any white response pins
 				for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
 					for (size_t j = 0; j < guess.size(); j++) {
 						if (guess[j] == tempAnswerForComparing[i]) {
@@ -210,7 +210,7 @@ int main() { //TODO: allow command-line arguments
 					}
 					else {
 						cout << "Your guess " << guessNumber + 1 << '/' << numGuesses << ": ";
-						//response pins come in alphabetical order to reveal nothing
+						//response pins come in lexicographical order to reveal nothing
 						ostream_iterator<char> responseOutputIterator(cout);
 						copy(response.begin(), response.end(), responseOutputIterator);
 					}
