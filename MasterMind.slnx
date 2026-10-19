@@ -3,5 +3,8 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="MasterMind/MasterMind.vcxproj" Id="a0c8872a-ec4a-474a-aaf6-54a5546d64a2" />
 </Solution>
