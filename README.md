@@ -13,10 +13,17 @@ Start date: 2021-06-07
 
 `MasterMind`
 
-The program starts by asking for some settings. Leave a setting blank to use the default.  
-Guesses are the (case-insensitive) spelled names of the color options for the game, separated by whitespace.  
-The program responds with `b` to indicate a black pin and `w` to indicate a white pin (as opposed to checks and circles, respectively, in the rules reference).  
-Type `hint` instead of a guess to receive a hint.  
+The program begins by asking for some settings. Leave a setting blank to use the default.  
+Make a guess by entering the (case-insensitive) names of the color options for the game, separated by whitespace.  
+A response with `b` indicates a black pin and `w` indicates a white pin (as opposed to checks and circles, respectively, in the rules reference).  
+
+### Commands
+
+| Command | Description |
+| ------- | ----------- |
+| `answer` | See the answer. |
+| `hint` | Receive a hint for a random or specific pin number. |
+| `quit` | Quit. |
 
 ## Acknowledgements
 
