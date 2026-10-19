@@ -167,57 +167,55 @@ int main() {
 				}
 			}
 
-			if (!colorError) {
-				vector<char> response;
+			vector<char> response;
 
-				//determine the need for any black response pins
-				for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
-					if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) {
-						cerr << "Error: " << guess[i] << " is not a valid color" << (find(allColors.begin(), allColors.end(), guess[i]) == allColors.end() ? "" : " in this match") << ". The valid color option" << (colors.size() == 1 ? " is " : "s are ");
-						grammaticallyPrintVectorElements(cerr, colors, "and");
-						cerr << ".\n";
-						colorError = true;
-						continue;
-					}
+			//determine the need for any black response pins
+			for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
+				if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) {
+					cerr << "Error: " << guess[i] << " is not a valid color" << (find(allColors.begin(), allColors.end(), guess[i]) == allColors.end() ? "" : " in this match") << ". The valid color option" << (colors.size() == 1 ? " is " : "s are ");
+					grammaticallyPrintVectorElements(cerr, colors, "and");
+					cerr << ".\n";
+					colorError = true;
+					continue;
+				}
 
-					if (guess[i] == tempAnswerForComparing[i]) {
-						response.push_back('b');
-						guess.erase(guess.begin() + i);
+				if (guess[i] == tempAnswerForComparing[i]) {
+					response.push_back('b');
+					guess.erase(guess.begin() + i);
+					tempAnswerForComparing.erase(tempAnswerForComparing.begin() + i);
+					i--;
+				}
+			}
+
+			//determine the need for any white response pins
+			for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
+				for (size_t j = 0; j < guess.size(); j++) {
+					if (guess[j] == tempAnswerForComparing[i]) {
+						response.push_back('w');
+						guess.erase(guess.begin() + j);
 						tempAnswerForComparing.erase(tempAnswerForComparing.begin() + i);
 						i--;
+						break;
 					}
 				}
+			}
 
-				//determine the need for any white response pins
-				for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
-					for (size_t j = 0; j < guess.size(); j++) {
-						if (guess[j] == tempAnswerForComparing[i]) {
-							response.push_back('w');
-							guess.erase(guess.begin() + j);
-							tempAnswerForComparing.erase(tempAnswerForComparing.begin() + i);
-							i--;
-							break;
-						}
-					}
-				}
-
-				if (response == vector<char>(numPinsPerGuess, 'b')) {
-					cout << "Congratulations! You won!\n";
-					return 0;
+			if (response == vector<char>(numPinsPerGuess, 'b')) {
+				cout << "Congratulations! You won!\n";
+				return 0;
+			}
+			else {
+				if (response.empty()) {
+					cout << "Nothing correct.";
 				}
 				else {
-					if (response.empty()) {
-						cout << "Nothing correct.";
-					}
-					else {
-						cout << "Your guess " << guessNumber + 1 << '/' << numGuesses << ": ";
-						//response pins come in lexicographical order to reveal nothing
-						ostream_iterator<char> responseOutputIterator(cout);
-						copy(response.begin(), response.end(), responseOutputIterator);
-					}
-					cout << endl;
-					guessNumber++;
+					cout << "Your guess " << guessNumber + 1 << '/' << numGuesses << ": ";
+					//response pins come in lexicographical order to reveal nothing
+					ostream_iterator<char> responseOutputIterator(cout);
+					copy(response.begin(), response.end(), responseOutputIterator);
 				}
+				cout << endl;
+				guessNumber++;
 			}
 		}
 	}
