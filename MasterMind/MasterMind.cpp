@@ -88,9 +88,11 @@ void printAnswer(ostream& os, const vector<T>& answer, const bool presentTense =
 
 int main() {
 	const vector<string> allColors = { "black", "blue", "green", "red", "white", "yellow", "blank" };
-	vector<string> colors = allColors;
-	size_t numPinColors = 6, numPinsPerGuess = 4, numGuesses = 10;
 	const vector<string> cheatCodes = { "answer", "hint", "quit" }; //TODO: pair to functions?
+	vector<string> colors = allColors;
+	size_t numPinColors = 6;
+	size_t numPinsPerGuess = 4;
+	size_t numGuesses = 10;
 
 	getUnsignedInt("How many pin colors do you want to play with (default is 6)? ", numPinColors, 1, colors.size());
 	colors.resize(numPinColors);
