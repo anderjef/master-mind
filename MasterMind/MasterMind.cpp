@@ -87,7 +87,8 @@ void printAnswer(ostream& os, const vector<T>& answer, const bool presentTense =
 
 
 int main() {
-	vector<string> colors = { "black", "blue", "green", "red", "white", "yellow", "blank" };
+	const vector<string> allColors = { "black", "blue", "green", "red", "white", "yellow", "blank" };
+	vector<string> colors = allColors;
 	size_t numPinColors = 6, numPinsPerGuess = 4, numGuesses = 10;
 	const vector<string> cheatCodes = { "answer", "hint", "quit" }; //TODO: pair to functions?
 
@@ -158,7 +159,7 @@ int main() {
 			bool colorError = false;
 			for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
 				if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) {
-					cerr << "Error: " << guess[i] << " is not a valid color (at least in this game). The valid color option" << (colors.size() == 1 ? " is " : "s are ");
+					cerr << "Error: " << guess[i] << " is not a valid color" << (find(allColors.begin(), allColors.end(), guess[i]) == allColors.end() ? "" : " in this match") << ". The valid color option" << (colors.size() == 1 ? " is " : "s are ");
 					grammaticallyPrintVectorElements(cerr, colors, "and");
 					cerr << ".\n";
 					colorError = true;
@@ -172,7 +173,7 @@ int main() {
 				//determine the need for any black response pins
 				for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
 					if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) {
-						cerr << "Error: " << guess[i] << " is not a valid color (at least in this game). The valid color option" << (colors.size() == 1 ? " is " : "s are ");
+						cerr << "Error: " << guess[i] << " is not a valid color" << (find(allColors.begin(), allColors.end(), guess[i]) == allColors.end() ? "" : " in this match") << ". The valid color option" << (colors.size() == 1 ? " is " : "s are ");
 						grammaticallyPrintVectorElements(cerr, colors, "and");
 						cerr << ".\n";
 						colorError = true;
