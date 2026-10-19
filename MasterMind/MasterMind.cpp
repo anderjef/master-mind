@@ -1,6 +1,6 @@
 #include <algorithm>
 #include <cctype>
-#include <climits>
+#include <cstdint>
 #include <iostream>
 #include <iterator>
 #include <random>
@@ -29,7 +29,7 @@ using std::uniform_int_distribution;
 using std::vector;
 
 
-static void getUnsignedInt(const string& message, unsigned int& result, const unsigned int minValue = 0, const unsigned int maxValue = UINT_MAX) {
+static void getUnsignedInt(const string& message, size_t& result, const size_t minValue = 0, const size_t maxValue = SIZE_MAX) {
 	bool inputError;
 	do {
 		inputError = false;
@@ -38,7 +38,7 @@ static void getUnsignedInt(const string& message, unsigned int& result, const un
 		getline(cin, line);
 		if (line != "") {
 			try {
-				result = stoul(line);
+				result = stoull(line);
 			}
 			catch (const invalid_argument& ia) {
 				inputError = true;
@@ -88,7 +88,7 @@ void printAnswer(ostream& os, const vector<T>& answer, const bool presentTense =
 
 int main() { //TODO: allow command-line arguments
 	vector<string> colors = { "black", "blue", "green", "red", "white", "yellow", "blank" };
-	unsigned int numPinColors = 6, numPinsPerGuess = 4, numGuesses = 10;
+	size_t numPinColors = 6, numPinsPerGuess = 4, numGuesses = 10;
 	const vector<string> cheatCodes = { "answer", "hint", "quit" }; //TODO: pair to functions?
 
 	getUnsignedInt("How many pin colors do you want to play with (default is 6)? ", numPinColors, 1, colors.size());
@@ -96,7 +96,7 @@ int main() { //TODO: allow command-line arguments
 	cout << "The color option" << (colors.size() == 1 ? " is " : "s are ");
 	grammaticallyPrintVectorElements(cout, colors, "and");
 	cout << ". Caps are irrelevant in your guesses.\n";
-	getUnsignedInt("How many pins per guess do you want to play with (default is 4)? ", numPinsPerGuess, 1, UINT_MAX);
+	getUnsignedInt("How many pins per guess do you want to play with (default is 4)? ", numPinsPerGuess, 1, SIZE_MAX);
 	getUnsignedInt("How many guesses do you want to have (default is 10)? ", numGuesses);
 	//TODO: allow specifying whether the player is the sequence producer (with an AI guesser) or guesser
 
@@ -105,15 +105,15 @@ int main() { //TODO: allow command-line arguments
 	answer.reserve(numPinsPerGuess);
 	random_device randomDevice;
 	mt19937 generator(randomDevice());
-	for (unsigned int i = 0; i < numPinsPerGuess; i++) {
+	for (size_t i = 0; i < numPinsPerGuess; i++) {
 		answer.push_back(colors[pick(generator)]);
 	}
 
 	cout << "Begin guessing:\n";
-	for (unsigned int guessNumber = 0; guessNumber < numGuesses; ) {
+	for (size_t guessNumber = 0; guessNumber < numGuesses; ) {
 		string line;
 		getline(cin, line);
-		for (unsigned int i = 0; i < line.size(); i++) { //make caps irrelevant
+		for (size_t i = 0; i < line.size(); i++) { //make caps irrelevant
 			line[i] = tolower(line[i]);
 		}
 		istringstream iss(line);
@@ -121,7 +121,7 @@ int main() { //TODO: allow command-line arguments
 
 		if (guess.size() == 2 && guess[0] == cheatCodes[1]) { //cheatCodes[1] == "hint"
 			try {
-				const unsigned int hintIndex = stoul(guess[1]);
+				const size_t hintIndex = stoull(guess[1]);
 				if (hintIndex == 0 || hintIndex > answer.size()) {
 					throw out_of_range("hint index argument out of range");
 				}
@@ -138,8 +138,8 @@ int main() { //TODO: allow command-line arguments
 					continue;
 				}
 				else if (guess[0] == cheatCodes[1]) { //cheatCodes[1] == "hint"
-					uniform_int_distribution<unsigned int> distribution(0, answer.size() - 1);
-					const unsigned int hintIndex = distribution(generator);
+					uniform_int_distribution<size_t> distribution(0, answer.size() - 1);
+					const size_t hintIndex = distribution(generator);
 					cout << "Your hint: pin " << hintIndex + 1 << " is " << answer[hintIndex] << endl;
 					continue;
 				}
@@ -156,7 +156,7 @@ int main() { //TODO: allow command-line arguments
 
 			//determine whether there is any invalid color option
 			bool colorError = false;
-			for (unsigned int i = 0; i < tempAnswerForComparing.size(); i++) {
+			for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
 				if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) { //if isn't a valid color
 					cerr << "Error: " << guess[i] << " is not a valid color (at least in this game). The valid color option" << (colors.size() == 1 ? " is " : "s are ");
 					grammaticallyPrintVectorElements(cerr, colors, "and");
@@ -170,7 +170,7 @@ int main() { //TODO: allow command-line arguments
 				vector<char> response;
 
 				//determine the need for any black ('b') response pins
-				for (unsigned int i = 0; i < tempAnswerForComparing.size(); i++) {
+				for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
 					if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) { //if isn't a valid color
 						cerr << "Error: " << guess[i] << " is not a valid color (at least in this game). The valid color option" << (colors.size() == 1 ? " is " : "s are ");
 						grammaticallyPrintVectorElements(cerr, colors, "and");
@@ -188,8 +188,8 @@ int main() { //TODO: allow command-line arguments
 				}
 
 				//determine the need for any white ('w') response pins
-				for (unsigned int i = 0; i < tempAnswerForComparing.size(); i++) {
-					for (unsigned int j = 0; j < guess.size(); j++) {
+				for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
+					for (size_t j = 0; j < guess.size(); j++) {
 						if (guess[j] == tempAnswerForComparing[i]) {
 							response.push_back('w');
 							guess.erase(guess.begin() + j);
