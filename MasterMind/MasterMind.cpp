@@ -100,15 +100,14 @@ int main() { //TODO: allow command-line arguments
 	getUnsignedInt("How many guesses do you want to have (default is 10)? ", numGuesses);
 	//TODO: allow specifying whether the player is the sequence producer (with an AI guesser) or guesser
 
-	//rather inefficiently generate the random answer by multiplying the colors vector by the number of pins in the answer/guess, then randomly reordering and extracting the first few
+	uniform_int_distribution<size_t> pick(0, colors.size() - 1);
 	vector<string> answer;
+	answer.reserve(numPinsPerGuess);
+	random_device randomDevice;
+	mt19937 generator(randomDevice());
 	for (unsigned int i = 0; i < numPinsPerGuess; i++) {
-		answer.insert(answer.end(), colors.begin(), colors.end());
+		answer.push_back(colors[pick(generator)]);
 	}
-	random_device randomDevice; //to seed the constructor of the random engine to create different sequences of shuffles each time the program is run
-	mt19937 generator(randomDevice()); //to reuse throughout multiple shuffles to generate different permutations every time
-	shuffle(answer.begin(), answer.end(), generator);
-	answer.resize(numPinsPerGuess);
 
 	cout << "Begin guessing:\n";
 	for (unsigned int guessNumber = 0; guessNumber < numGuesses; ) {
