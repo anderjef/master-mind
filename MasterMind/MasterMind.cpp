@@ -78,8 +78,8 @@ void grammaticallyPrintVectorElements(ostream& os, const vector<T>& v, const str
 
 
 template<class T>
-void printAnswer(ostream& os, const vector<T>& answer, const bool presentTense = true) {
-	os << "The correct answer " << (presentTense ? "is" : "was") << ' ';
+void printAnswer(ostream& os, const vector<T>& answer, const bool presentTense) {
+	os << "The answer " << (presentTense ? "is" : "was") << ' ';
 	ostream_iterator<T> answerOutputIterator(os, " ");
 	copy(answer.begin(), answer.end(), answerOutputIterator);
 	os << endl;
@@ -137,7 +137,7 @@ int main() {
 		else if (guess.size() != numPinsPerGuess) {
 			if (guess.size() == 1 && find(cheatCodes.begin(), cheatCodes.end(), guess[0]) != cheatCodes.end()) {
 				if (guess[0] == cheatCodes[0]) { //cheatCodes[0] == "answer"
-					printAnswer(cout, answer);
+					printAnswer(cout, answer, true);
 					continue;
 				}
 				else if (guess[0] == cheatCodes[1]) { //cheatCodes[1] == "hint"
@@ -148,7 +148,7 @@ int main() {
 				}
 				else { //if (guess[0] == cheatCodes[2]) //cheatCodes[2] == "quit"
 					cout << "Sorry, you lost. ";
-					printAnswer(cout, answer, true);
+					printAnswer(cout, answer, false);
 					return 0;
 				}
 			}
@@ -223,6 +223,6 @@ int main() {
 	}
 
 	cout << "Sorry, you lost. ";
-	printAnswer(cout, answer, true);
+	printAnswer(cout, answer, false);
 	return 0;
 }
