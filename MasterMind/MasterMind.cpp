@@ -29,7 +29,7 @@ using std::uniform_int_distribution;
 using std::vector;
 
 
-static void getUnsignedInt(const string& message, size_t& result, const size_t minValue = 0, const size_t maxValue = SIZE_MAX) {
+static void getIntInRange(const string& message, size_t& result, const size_t minValue = 0, const size_t maxValue = SIZE_MAX) {
 	bool inputError;
 	do {
 		inputError = false;
@@ -94,13 +94,13 @@ int main() {
 	size_t numPinsPerGuess = 4;
 	size_t numGuesses = 10;
 
-	getUnsignedInt("How many pin colors do you want to play with (default is 6)? ", numPinColors, 1, colors.size());
+	getIntInRange("How many pin colors do you want to play with (default is 6)? ", numPinColors, 1, colors.size());
 	colors.resize(numPinColors);
 	cout << "The color option" << (colors.size() == 1 ? " is " : "s are ");
 	grammaticallyPrintVectorElements(cout, colors, "and");
 	cout << ". Caps are irrelevant in your guesses.\n";
-	getUnsignedInt("How many pins per guess do you want to play with (default is 4)? ", numPinsPerGuess, 1, SIZE_MAX);
-	getUnsignedInt("How many guesses do you want to have (default is 10)? ", numGuesses);
+	getIntInRange("How many pins per guess do you want to play with (default is 4)? ", numPinsPerGuess, 1, SIZE_MAX);
+	getIntInRange("How many guesses do you want to have (default is 10)? ", numGuesses);
 	//TODO: allow specifying whether the player is the sequence producer (with an AI guesser) or guesser
 
 	uniform_int_distribution<size_t> pick(0, colors.size() - 1);
