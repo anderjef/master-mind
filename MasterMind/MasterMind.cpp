@@ -114,8 +114,8 @@ int main() {
 	for (size_t guessNumber = 0; guessNumber < numGuesses; ) {
 		string line;
 		getline(cin, line);
-		for (size_t i = 0; i < line.size(); i++) {
-			line[i] = tolower(line[i]);
+		for (char& c : line) {
+			c = tolower(c);
 		}
 		istringstream iss(line);
 		vector<string> guess(istream_iterator<string>(iss), {});
