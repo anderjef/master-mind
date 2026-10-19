@@ -25,6 +25,7 @@ using std::out_of_range;
 using std::random_device;
 using std::shuffle;
 using std::string;
+using std::to_string;
 using std::uniform_int_distribution;
 using std::vector;
 
@@ -94,13 +95,13 @@ int main() {
 	size_t numPinsPerGuess = 4;
 	size_t numGuesses = 10;
 
-	getIntInRange("How many pin colors do you want to play with (default is 6)? ", numPinColors, 1, colors.size());
+	getIntInRange("Number of pin colors to play with [1-" + to_string(colors.size()) + ", default: 6]: ", numPinColors, 1, colors.size());
 	colors.resize(numPinColors);
 	cout << "The color option" << (colors.size() == 1 ? " is " : "s are ");
 	grammaticallyPrintVectorElements(cout, colors, "and");
-	cout << ". Caps are irrelevant in your guesses.\n";
-	getIntInRange("How many pins per guess do you want to play with (default is 4)? ", numPinsPerGuess, 1, SIZE_MAX);
-	getIntInRange("How many guesses do you want to have (default is 10)? ", numGuesses);
+	cout << ".\n";
+	getIntInRange("Pins per guess [default: 4]: ", numPinsPerGuess, 1, SIZE_MAX);
+	getIntInRange("Number of guesses [default: 10]: ", numGuesses, 1, SIZE_MAX);
 	//TODO: allow specifying whether the player is the sequence producer (with an AI guesser) or guesser
 
 	uniform_int_distribution<size_t> pick(0, colors.size() - 1);
@@ -112,7 +113,7 @@ int main() {
 		answer.push_back(colors[pick(generator)]);
 	}
 
-	cout << "Begin guessing:\n";
+	cout << "Begin guessing.\n";
 	for (size_t guessNumber = 0; guessNumber < numGuesses; ) {
 		string line;
 		getline(cin, line);
@@ -128,7 +129,7 @@ int main() {
 				if (hintIndex == 0 || hintIndex > answer.size()) {
 					throw out_of_range("hint index argument out of range");
 				}
-				cout << "Your hint: pin " << hintIndex << " is " << answer[static_cast<size_t>(hintIndex) - 1] << endl;
+				cout << "Hint: Pin " << hintIndex << " is " << answer[static_cast<size_t>(hintIndex) - 1] << endl;
 				continue;
 			}
 			catch (const invalid_argument&) {}
@@ -143,7 +144,7 @@ int main() {
 				else if (guess[0] == cheatCodes[1]) { //cheatCodes[1] == "hint"
 					uniform_int_distribution<size_t> distribution(0, answer.size() - 1);
 					const size_t hintIndex = distribution(generator);
-					cout << "Your hint: pin " << hintIndex + 1 << " is " << answer[hintIndex] << endl;
+					cout << "Hint: Pin " << hintIndex + 1 << " is " << answer[hintIndex] << endl;
 					continue;
 				}
 				else { //if (guess[0] == cheatCodes[2]) //cheatCodes[2] == "quit"
@@ -152,7 +153,7 @@ int main() {
 					return 0;
 				}
 			}
-			cerr << "Error: the number of guessed colors didn't match the number of pins per guess.\n";
+			cerr << "The number of guessed colors (" << guess.size() << ") didn't match the number of pins per guess (" << numPinsPerGuess << ").\n";
 		}
 		else {
 			vector<string> tempAnswerForComparing = answer;
@@ -161,7 +162,7 @@ int main() {
 			bool colorError = false;
 			for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
 				if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) {
-					cerr << "Error: " << guess[i] << " is not a valid color" << (find(allColors.begin(), allColors.end(), guess[i]) == allColors.end() ? "" : " in this match") << ". The valid color option" << (colors.size() == 1 ? " is " : "s are ");
+					cerr << guess[i] << " is not a valid color" << (find(allColors.begin(), allColors.end(), guess[i]) == allColors.end() ? "" : " in this match") << ". The valid color option" << (colors.size() == 1 ? " is " : "s are ");
 					grammaticallyPrintVectorElements(cerr, colors, "and");
 					cerr << ".\n";
 					colorError = true;
@@ -174,7 +175,7 @@ int main() {
 			//determine the need for any black response pins
 			for (size_t i = 0; i < tempAnswerForComparing.size(); i++) {
 				if (find(colors.begin(), colors.end(), guess[i]) == colors.end()) {
-					cerr << "Error: " << guess[i] << " is not a valid color" << (find(allColors.begin(), allColors.end(), guess[i]) == allColors.end() ? "" : " in this match") << ". The valid color option" << (colors.size() == 1 ? " is " : "s are ");
+					cerr << guess[i] << " is not a valid color" << (find(allColors.begin(), allColors.end(), guess[i]) == allColors.end() ? "" : " in this match") << ". The valid color option" << (colors.size() == 1 ? " is " : "s are ");
 					grammaticallyPrintVectorElements(cerr, colors, "and");
 					cerr << ".\n";
 					colorError = true;
@@ -207,11 +208,11 @@ int main() {
 				return 0;
 			}
 			else {
+				cout << "For guess " << guessNumber + 1 << '/' << numGuesses << ": ";
 				if (response.empty()) {
-					cout << "Nothing correct.";
+					cout << "(Nothing correct.)";
 				}
 				else {
-					cout << "Your guess " << guessNumber + 1 << '/' << numGuesses << ": ";
 					//response pins come in lexicographical order to reveal nothing
 					ostream_iterator<char> responseOutputIterator(cout);
 					copy(response.begin(), response.end(), responseOutputIterator);
