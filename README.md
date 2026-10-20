@@ -5,9 +5,9 @@ Start date: 2021-06-07
 
 ## Demo
 
-![Sample game 1 with default settings](Picture1.png)
+![Sample game 1 with default settings](sample-game-1-with-default-settings.png)
 
-![Sample game 2 with custom settings](Picture2.png)
+![Sample game 2 with custom settings](sample-game-2-with-custom-settings.png)
 
 ## Usage
 
